@@ -1,18 +1,16 @@
 import os
-from flask import Flask, session, render_template, redirect, url_for
-from . import create_app  # Importa la funzione di inizializzazione
-from .accounts.urls import accounts_bp  # Importa il Blueprint delle routes
+from flask import session, render_template, redirect, url_for
+from src.accounts.urls import accounts
+from . import create_app
 
-# Crea l'app Flask
-app = create_app(os.getenv("CONFIG_MODE", "default"))  # Usa "default" se CONFIG_MODE non è impostato
+
+app = create_app(os.getenv("CONFIG_MODE", "default"))
 app.secret_key = os.getenv("SECRET_KEY")
 
-# Registra il Blueprint delle routes
-app.register_blueprint(accounts_bp, url_prefix='/accounts')
+app.register_blueprint(accounts, url_prefix='/accounts', template_folder='views')
 
 # ----------------------------------------------- #
 
-# Hello World!
 @app.route('/')
 def hello():
     return "Hello World!"
@@ -21,13 +19,9 @@ def hello():
 
 @app.route('/home')
 def home():
-    # Check if the user is logged in
     if 'loggedin' in session:
-        # User is loggedin show them the home page
         return render_template('home.html', username=session['username'])
-    # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
-
 if __name__ == "__main__":
-    app.run(debug=True)  # Modalità debug per sviluppo
+    app.run(debug=True)
