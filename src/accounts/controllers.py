@@ -1,8 +1,8 @@
 from flask import request, redirect, url_for, flash, session
 from flask_login import login_user
 from argon2 import PasswordHasher
-from src import db
-from src.accounts.models import Account
+from src import db # type: ignore
+from src.accounts.models import Account # type: ignore
 import re
 
 ph = PasswordHasher()

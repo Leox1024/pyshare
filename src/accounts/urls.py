@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, logout_user, current_user
 from .controllers import login_controller, register_controller
-from src.accounts.models import Account
+from src.accounts.models import Account # type: ignore
 
 accounts = Blueprint("accounts", __name__, template_folder='views')
 

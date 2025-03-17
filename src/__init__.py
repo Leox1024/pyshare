@@ -22,5 +22,5 @@ def create_app(config_mode):
 
 @login_manager.user_loader
 def load_user(user_id):
-    from src.accounts.models import Account
+    from accounts.models import Account
     return Account.query.get(int(user_id))
