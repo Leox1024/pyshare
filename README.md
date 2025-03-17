@@ -38,6 +38,7 @@ source bin/activate
 
 ```bash
 pip install -r requirements.txt
+cd src
 ```
 
 5. **create env file**
@@ -58,7 +59,6 @@ PRODUCTION_DATABASE_URL  =
 4. **db init**
 
 ```bash
-cd src
 flask db init
 flask db migrate
 flask db upgrade
