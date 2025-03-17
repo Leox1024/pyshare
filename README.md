@@ -51,7 +51,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. **db init
+4. **db init**
 
 ```bash
 flask db init
