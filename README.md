@@ -25,18 +25,22 @@ git clone https://github.com/l3ox64/pyshare
 2. **create and activate VE:**
 
 ```bash
-python -m venv pyshare
-cd pyshare
-source bin/activate
+python3 -m venv pyshare
 ```
 
-3. **install dependencies:**
+3. **activate VE:**
+   ```bash
+   cd pyshare
+   source bin/activate
+   ```
+
+4. **install dependencies:**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. **create env file**
+5. **create env file**
 To configure the app, create a `.env` file in src folder:
 
 ```
@@ -45,7 +49,7 @@ CONFIG_MODE = development
 SECRET_KEY = 
 
 # POSTGRESQL_DATABASE_URI => 'postgresql+psycopg2://user:password@host:port/database'
-DEVELOPMENT_DATABASE_URL = 'postgresql+psycopg2://user:password@host:port/testdb'
+DEVELOPMENT_DATABASE_URL = 'postgresql+psycopg2://user:password@localhost:5432/testdb'
 TEST_DATABASE_URL        =
 STAGING_DATABASE_URL     =
 PRODUCTION_DATABASE_URL  =
