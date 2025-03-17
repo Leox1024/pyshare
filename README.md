@@ -22,7 +22,7 @@ To run this project locally:
 git clone https://github.com/l3ox64/pyshare
 ```
 
-2. **create VE:**
+2. **create and activate VE:**
 
 ```bash
 python -m venv pyshare
