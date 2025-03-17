@@ -1,11 +1,10 @@
 ## Pyshare
 
 ## Project Overview
-This project is a lightweight, secure, and high-performance file-sharing server written in Python, designed for efficient and reliable file transfer. It provides a minimal web interface, file upload, and download functionality, and is optimized for scalability and ease of deployment.
+This project is a file-sharing server written in Python, designed for efficient and reliable file transfer. It provides a minimal web interface, file upload, download and users manegement
 
 ## Features
 - **File Upload & Download:** Secure and efficient file transfers.
-- **HTTP/REST API Support:** RESTful endpoints for file operations.
 - **Minimal Web Interface:** Simple UI for managing file uploads and downloads.
 
 ## Future Enhancements
@@ -16,7 +15,7 @@ This project is a lightweight, secure, and high-performance file-sharing server 
 ## Configuration
 
 ### Environment Variables
-To configure the app, create a `.env` file with the following content:
+To configure the app, create a `.env` file:
 
 ```
 # Configuration Mode => development, testing, staging, or production
@@ -34,33 +33,36 @@ PRODUCTION_DATABASE_URL  =
 
 To run this project locally:
 
-1. **Create a Virtual Environment:**
+1. **create VE:**
 
 ```bash
 python -m venv venv
 ```
 
-2. **Activate the Virtual Environment:**
-   - On macOS/Linux:
-     ```bash
-     source venv/bin/activate
-     ```
+2. **activate VE:**
+On macOS/Linux:
+```bash
+source venv/bin/activate
+```
 
-3. **Install Dependencies:**
+3. **install dependencies:**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. **Run the Application:**
+4. **db init
+
+```bash
+flask db init
+flask db migrate
+flask db upgrade
+```
+
+5. **run the application:**
 
 ```bash
 flask run
 ```
 
 Your web app will be available at `http://127.0.0.1:5000`.
-
-## Project Status
-- **Development Phase:** The project is under active development.
-- **Objective:** To build a minimal, secure, and efficient file-sharing server with RESTful API support.
-
