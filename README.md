@@ -53,6 +53,7 @@ PRODUCTION_DATABASE_URL  =
 4. **db init**
 
 ```bash
+cd src
 flask db init
 flask db migrate
 flask db upgrade
