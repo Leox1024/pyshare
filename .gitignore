@@ -1,0 +1,48 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+*.so
+lib/
+bin/
+
+# Flask specifico
+instance/
+*.db
+*.sqlite
+*.log
+
+# Env
+.env
+.env.*
+venv/
+*.env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# PyCharm
+.idea/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Flask Migrations
+migrations/
+
+# Temporary files
+*.bak
+*.swp
+*.swo
+
+# Build
+*.egg-info/
+dist/
+build/
+
+# Logs
+*.log
