@@ -27,6 +27,7 @@ git clone https://github.com/l3ox64/pyshare
 ```bash
 python -m venv pyshare
 cd pyshare
+source bin/activate
 ```
 
 3. **install dependencies:**
