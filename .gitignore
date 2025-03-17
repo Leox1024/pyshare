@@ -1,2 +1,52 @@
-# Created by venv; see https://docs.python.org/3/library/venv.html
-*
+# Python specific
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+env/
+venv/
+ENV/
+VENV/
+lib/
+bin/
+
+# Flask specific
+instance/
+*.db
+*.sqlite3
+
+# virtual environment directories
+*.egg-info/
+*.eggs/
+dist/
+build/
+
+# IDE specific files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# dotenv file (to avoid pushing secrets to git)
+.env
+
+# Log files
+*.log
+
+# Coverage directory
+.coverage
+*.cover
+
+# Test result files
+nosetests.xml
+pytest.xml
+test_*.db
+
+# SQLite Database
+*.sqlite3
+
+# Flask Migration files
+migrations/
