@@ -29,10 +29,10 @@ python3 -m venv pyshare
 ```
 
 3. **activate VE:**
-   ```bash
-   cd pyshare
-   source bin/activate
-   ```
+```bash
+cd pyshare
+source bin/activate
+```
 
 4. **install dependencies:**
 
