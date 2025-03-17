@@ -18,6 +18,7 @@ instance/
 .env.*
 venv/
 *.env
+pyvenv.cfg
 
 # VS Code
 .vscode/
