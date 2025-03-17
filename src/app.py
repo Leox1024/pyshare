@@ -3,7 +3,6 @@ from flask import session, render_template, redirect, url_for
 from src.accounts.urls import accounts
 from . import create_app
 
-
 app = create_app(os.getenv("CONFIG_MODE", "default"))
 app.secret_key = os.getenv("SECRET_KEY")
 

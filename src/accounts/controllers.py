@@ -1,9 +1,11 @@
 from flask import request, redirect, url_for, flash, session
-from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user
+from argon2 import PasswordHasher
 from src import db
 from src.accounts.models import Account
 import re
+
+ph = PasswordHasher()
 
 def login_controller():
     username = request.form['username']
@@ -11,16 +13,20 @@ def login_controller():
 
     account = Account.query.filter_by(username=username).first()
 
-    if account and check_password_hash(account.hashed_password, password):
-        session['loggedin'] = True
-        session['id'] = account.id
-        session['username'] = account.username
+    if account:
+        try:
+            if ph.verify(account.hashed_password, password):
+                session['loggedin'] = True
+                session['id'] = account.id
+                session['username'] = account.username
 
-        login_user(account)
-        flash("Logged in successfully!", "success")
-        return redirect(url_for('home'))
+                login_user(account)
+                flash("Logged in successfully!", "success")
+                return redirect(url_for('home'))
+        except:
+            flash("Incorrect username/password!", "danger")
+            return redirect(url_for('accounts.login'))
     else:
-        
         flash("Incorrect username/password!", "danger")
         return redirect(url_for('accounts.login'))
     
@@ -38,10 +44,9 @@ def register_controller():
     elif not re.match(r'[A-Za-z0-9]+', username):
         flash("Username must contain only letters and numbers!", "danger")
     else:
-        hashed_password = generate_password_hash(password)
+        hashed_password = ph.hash(password)
 
-        new_account = Account(username=username, email=email)
-        new_account.set_password(password)
+        new_account = Account(username=username, email=email, hashed_password=hashed_password)
         db.session.add(new_account)
         db.session.commit()
 
