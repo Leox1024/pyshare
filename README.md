@@ -12,9 +12,29 @@ This project is a file-sharing server written in Python, designed for efficient 
 - **User Authentication & Access Control:** Role-based access management.
 - **Database Integration:** PostgreSQL for file metadata storage.
 
-## Configuration
+## Getting Started
 
-### Environment Variables
+To run this project locally:
+
+1. **clone repo:**
+
+```bash
+git clone https://github.com/l3ox64/pyshare
+```
+
+2. **create VE:**
+
+```bash
+python -m venv pyshare
+```
+
+3. **install dependencies:**
+
+```bash
+pip install -r requirements.txt
+```
+
+4. **create env file**
 To configure the app, create a `.env` file:
 
 ```
@@ -27,28 +47,6 @@ DEVELOPMENT_DATABASE_URL = 'postgresql+psycopg2://user:password@host:port/testdb
 TEST_DATABASE_URL        =
 STAGING_DATABASE_URL     =
 PRODUCTION_DATABASE_URL  =
-```
-
-## Getting Started
-
-To run this project locally:
-
-1. **create VE:**
-
-```bash
-python -m venv venv
-```
-
-2. **activate VE:**
-On macOS/Linux:
-```bash
-source venv/bin/activate
-```
-
-3. **install dependencies:**
-
-```bash
-pip install -r requirements.txt
 ```
 
 4. **db init**
