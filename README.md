@@ -37,7 +37,7 @@ pip install -r requirements.txt
 ```
 
 4. **create env file**
-To configure the app, create a `.env` file:
+To configure the app, create a `.env` file in src folder:
 
 ```
 # Configuration Mode => development, testing, staging, or production
