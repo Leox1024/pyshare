@@ -17,10 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.x'
 
-      - name: Install pip-tools
-        run: pip install pip-tools
-
-      - name: Check Dependency Conflicts
-        run: pip-compile --verbose --dry-run requirements.txt
+      - name: Install dependencies and check for version issues
+        run: pip install -r requirements.txt
