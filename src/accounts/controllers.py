@@ -4,12 +4,16 @@ from argon2 import PasswordHasher
 from email_validator import validate_email, EmailNotValidError
 from src import db  # type: ignore
 from src.accounts.models import Account  # type: ignore
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import re
-
-ph = PasswordHasher()
 
 # ----------------------------------------------- #
 
+ph = PasswordHasher()
+limiter = Limiter(get_remote_address, default_limits=["5 per minute"])
+
+# ----------------------------------------------- #
 def is_valid_email(email):
     try:
         validate_email(email)
@@ -22,53 +26,40 @@ def is_valid_username(username):
 
 # ----------------------------------------------- #
 
+@limiter.limit("5 per minute")
 def login_controller():
-    user_input = request.form['username']
-    password = request.form['password']
+    user_input, password = request.form.get('username'), request.form.get('password')
 
-    account = Account.query.filter_by(username=user_input).first() or Account.query.filter_by(email=user_input).first()
+    if not user_input or not password:
+        flash("Username/email and password are required!", "danger")
+        return redirect(url_for('accounts.login'))
 
-    if account:
-        try:
-            if ph.verify(account.hashed_password, password):
-                session['loggedin'] = True
-                session['id'] = account.id
-                session['username'] = account.username
+    account = Account.query.filter((Account.username == user_input) | (Account.email == user_input)).first()
 
-                login_user(account)
-                flash("Logged in successfully!", "success")
-                return redirect(url_for('home'))
-        except:
-            flash("Incorrect username/email or password!", "danger")
+    if account and ph.verify(account.hashed_password, password):
+        session.update({'loggedin': True, 'id': account.id, 'username': account.username})
+        login_user(account)
+        flash("Logged in successfully!", "success")
+        return redirect(url_for('home'))
 
-    else:
-        flash("Incorrect username/email or password!", "danger")
-
+    flash("Incorrect username/email or password!", "danger")
     return redirect(url_for('accounts.login'))
 
 # ----------------------------------------------- #
 
+@limiter.limit("3 per minute")
 def register_controller():
-    username = request.form['username']
-    password = request.form['password']
-    email = request.form['email']
+    username, password, email = request.form.get('username'), request.form.get('password'), request.form.get('email')
 
     if Account.query.filter_by(username=username).first():
         flash("Account already exists!", "danger")
-
     elif not is_valid_email(email):
         flash("Invalid email address!", "danger")
-
     elif not is_valid_username(username):
         flash("Username must contain only letters and numbers!", "danger")
-
     else:
-        hashed_password = ph.hash(password)
-
-        new_account = Account(username=username, email=email, hashed_password=hashed_password)
-        db.session.add(new_account)
+        db.session.add(Account(username=username, email=email, hashed_password=ph.hash(password)))
         db.session.commit()
-
         flash("You have successfully registered!", "success")
         return redirect(url_for('accounts.login'))
 

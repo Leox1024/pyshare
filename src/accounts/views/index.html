@@ -14,6 +14,7 @@
 				<a href="{{ url_for('accounts.register') }}">Register</a>
 			</div>
 			<form action="{{ url_for('accounts.login') }}" method="post">
+				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 				<label for="username">
 					<i class="fas fa-user"></i>
 				</label>
