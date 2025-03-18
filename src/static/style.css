@@ -9,6 +9,17 @@ body {
     background-color: #435165;
     margin: 0;
 }
+.alert {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+.alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.alert-danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 .login, .register {
     width: 400px;
     background-color: #ffffff;

@@ -11,6 +11,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 #apps blueprint
 app.register_blueprint(accounts, url_prefix='/accounts', template_folder='views')
 
+
 # Initialize LoginManager for user authentication management
 login_manager = LoginManager()
 login_manager.login_view = "accounts.login"  # Set the login view endpoint
