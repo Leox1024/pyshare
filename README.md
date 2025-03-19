@@ -36,11 +36,10 @@ source bin/activate
 
 ```bash
 pip install -r requirements.txt
-cd src
 ```
 
-5. **create env file**
-To configure the app, create a `.env` file in src folder:
+5. **modify env file**
+To configure the app, modify a `.env` to meet your needs:
 
 ```
 # Configuration Mode => development, testing, staging, or production
@@ -57,6 +56,7 @@ PRODUCTION_DATABASE_URL  =
 4. **db init**
 
 ```bash
+cd src
 flask db init
 flask db migrate
 flask db upgrade
