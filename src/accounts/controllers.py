@@ -1,17 +1,19 @@
+import re
+
 from flask import request, redirect, url_for, flash, session
 from flask_login import login_user
+
 from argon2 import PasswordHasher
 from email_validator import validate_email, EmailNotValidError
-from src import db  # type: ignore
-from src.accounts.models import Account  # type: ignore
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-import re
+
+from src import db
+from src.accounts.models import Account
 
 # ----------------------------------------------- #
 
-ph = PasswordHasher()
-limiter = Limiter(get_remote_address, default_limits=["5 per minute"])
+limiter = Limiter(key_func=get_remote_address)
 
 # ----------------------------------------------- #
 def is_valid_email(email):
@@ -36,7 +38,7 @@ def login_controller():
 
     account = Account.query.filter((Account.username == user_input) | (Account.email == user_input)).first()
 
-    if account and ph.verify(account.hashed_password, password):
+    if account and PasswordHasher().verify(account.hashed_password, password):
         session.update({'loggedin': True, 'id': account.id, 'username': account.username})
         login_user(account)
         flash("Logged in successfully!", "success")
@@ -58,7 +60,7 @@ def register_controller():
     elif not is_valid_username(username):
         flash("Username must contain only letters and numbers!", "danger")
     else:
-        db.session.add(Account(username=username, email=email, hashed_password=ph.hash(password)))
+        db.session.add(Account(username=username, email=email, hashed_password=PasswordHasher().hash(password)))
         db.session.commit()
         flash("You have successfully registered!", "success")
         return redirect(url_for('accounts.login'))
