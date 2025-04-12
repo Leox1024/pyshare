@@ -1,0 +1,8 @@
+<h2>Your Files </h2>
+<div class="file-list">
+  {% for file in files %}
+    <div class="file-item">{{ file }}</div>
+  {% else %}
+    <p>No files found.</p>
+  {% endfor %}
+</div>
