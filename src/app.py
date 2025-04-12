@@ -8,10 +8,12 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
 from . import create_app
-from src.accounts.models import Account
-from src.accounts.urls import accounts
-from src.accounts.controllers import limiter
+from src.accounts.models import Account # type: ignore
+from src.accounts.urls import accounts # type: ignore
+from src.accounts.controllers import limiter # type: ignore
 
+from src.files.controllers import create_user_dirs # type: ignore
+from src.files.urls import files # type: ignore
 # ----------------------------------------------- #
 
 # Load .env value from parent directory
@@ -24,11 +26,14 @@ app.secret_key = os.getenv("SECRET_KEY", "default_secret_key")
 # ----------------------------------------------- #
 
 #app init
-
+with app.app_context():
+    create_user_dirs()
 limiter.init_app(app)
 csrf = CSRFProtect(app)
 
 app.register_blueprint(accounts, url_prefix='/accounts', template_folder='views')
+app.register_blueprint(files, url_prefix='/files', template_folder='views')
+
 
 # ----------------------------------------------- #
 
@@ -52,4 +57,12 @@ def root():
 @login_required
 @app.route('/home')
 def home():
-    return render_template('home.html', username=session['username']) if 'loggedin' in session else redirect(url_for('accounts.login'))
+    username = session.get('username')
+    user_dir = os.path.join("files/users", username)
+
+    try:
+        files = os.listdir(user_dir)
+    except FileNotFoundError:
+        files = []
+
+    return render_template('home.html', username=username, files=files)

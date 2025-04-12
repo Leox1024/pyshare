@@ -8,8 +8,9 @@ from email_validator import validate_email, EmailNotValidError
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-from src import db
-from src.accounts.models import Account
+from src import db # type: ignore
+from src.accounts.models import Account # type: ignore
+from src.files.controllers import create_user_dirs # type: ignore
 
 # ----------------------------------------------- #
 
@@ -63,6 +64,7 @@ def register_controller():
         db.session.add(Account(username=username, email=email, hashed_password=PasswordHasher().hash(password)))
         db.session.commit()
         flash("You have successfully registered!", "success")
+        create_user_dirs()
         return redirect(url_for('accounts.login'))
 
     return redirect(url_for('accounts.register'))
