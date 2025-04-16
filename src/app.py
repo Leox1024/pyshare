@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-from flask import Flask, session, render_template, redirect, url_for
+from flask import Flask, session, render_template, redirect, url_for, flash
 from flask_login import LoginManager, login_required
 from flask_wtf.csrf import CSRFProtect
 from flask_limiter import Limiter
@@ -58,6 +58,9 @@ def root():
 @app.route('/home')
 def home():
     username = session.get('username')
+    if not username:
+        flash("Session expired or user not logged in")
+        return redirect(url_for('accounts.login'))
     user_dir = os.path.join("files/users", username)
 
     try:
@@ -66,3 +69,5 @@ def home():
         files = []
 
     return render_template('home.html', username=username, files=files)
+
+# ----------------------------------------------- #

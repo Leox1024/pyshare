@@ -1,8 +1,16 @@
 <h2>Your Files </h2>
 <div class="file-list">
+  
+  <form action="{{ url_for('files.files_upload_route') }}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="file" name="file">
+    <button type="submit">Upload</button>
+  </form>
+
   {% for file in files %}
     <div class="file-item">{{ file }}</div>
   {% else %}
     <p>No files found.</p>
   {% endfor %}
+
 </div>

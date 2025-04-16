@@ -1,6 +1,7 @@
 import os
 from src.accounts.models import Account # type: ignore
-from flask import render_template, session
+from flask import render_template, session, request
+from werkzeug.utils import secure_filename
 
 # ----------------------------------------------- #
 
@@ -26,3 +27,22 @@ def user_files_view():
         files = []
 
     return render_template("files.html", files=files)
+
+# ----------------------------------------------- #
+
+def files_upload():
+    #get current session name
+    username = session.get('username')
+    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "users"))
+    user_dir = os.path.join(base_path, username)
+
+    #upload file to user dir
+    uploaded_file = request.files.get('file')
+    if uploaded_file and uploaded_file.filename:
+        filename = secure_filename(uploaded_file.filename)
+        uploaded_file.save(os.path.join(user_dir, filename))
+
+    # reload html
+    files = os.listdir(user_dir)
+    return render_template("home.html", files=files)
+
