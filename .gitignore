@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Not track user/files
+src/files/users/*
+
 # C extensions
 *.so
 
