@@ -18,18 +18,18 @@ To run this project locally:
 
 ```bash
 git clone https://github.com/l3ox64/pyshare
+cd pyshare
 ```
 
 2. **create and activate VE:**
 
 ```bash
-python3 -m venv pyshare
+python3 -m venv venv
 ```
 
 3. **activate VE:**
 ```bash
-cd pyshare
-source bin/activate
+source venv/bin/activate
 ```
 
 4. **install dependencies:**
