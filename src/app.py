@@ -23,6 +23,7 @@ load_dotenv(dotenv_path)
 app = create_app(os.getenv("CONFIG_MODE", "default"))
 app.secret_key = os.getenv("SECRET_KEY", "default_secret_key")
 
+
 # ----------------------------------------------- #
 
 #app init
@@ -31,9 +32,13 @@ with app.app_context():
 limiter.init_app(app)
 csrf = CSRFProtect(app)
 
+#blueprint config
 app.register_blueprint(accounts, url_prefix='/accounts', template_folder='views')
 app.register_blueprint(files, url_prefix='/files', template_folder='views')
 
+#cookie session config
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_PERMANENT'] = False
 
 # ----------------------------------------------- #
 

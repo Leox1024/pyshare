@@ -1,38 +1,52 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='files.css') }}">
+
 <div class="file-list">
-  <form action="{{ url_for('files.files_upload_route') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url_for('files.files_upload_route') }}" method="POST" enctype="multipart/form-data" class="upload-form">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <input type="file" name="file">
-    <button type="submit">Upload</button>
+    <label class="custom-file-upload">
+      <input type="file" name="file" id="file-input">Choose File
+    </label>
+    <button type="submit" class="btn primary">Upload</button>
   </form>
+  <span id="file-name"></span>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}
+					<div class="alert alert-{{ messages[-1][0] }}">{{ messages[-1][1] }}</div>
+	{% endif %}{% endwith %}
 
   {% for file in files %}
     <div class="file-item">
-      {{ file }}
-      <button onclick="showRenameForm('{{ file }}')">Rename</button>
-      <button>Download</button>
-	  <button onclick="showDeleteForm('{{ file }}')">delete</button>
-    
+      <span class="file-name">{{ file }}</span>
 
-      <!-- Hidden Delete Form -->
-	  <form action="{{ url_for('files.delete_files_route') }}" method="POST" style="display: none;" id="delete-form-{{ file }}">
+      <div class="file-actions">
+        <button class="btn secondary" onclick="showRenameForm('{{ file }}')">Rename</button>
+
+        <a href="{{ url_for('files.download_files_route') }}?filename={{ file }}">
+          <button class="btn secondary" type="button">Download</button>
+        </a>
+
+        <button class="btn danger" onclick="showDeleteForm('{{ file }}')">Delete</button>
+      </div>
+
+      <!-- Delete Form -->
+      <form action="{{ url_for('files.delete_files_route') }}" method="POST" class="hidden-form" id="delete-form-{{ file }}">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="filename" value="{{ file }}">
-		<button type="submit">Do you want to delete {{ file }} </button>
+        <button class="btn danger" type="submit">Confirm delete {{ file }}</button>
       </form>
 
-
-      <!-- Hidden Rename Form -->
-      <form action="{{ url_for('files.rename_files_route') }}" method="POST" style="display: none;" id="rename-form-{{ file }}">
+      <!-- Rename Form -->
+      <form action="{{ url_for('files.rename_files_route') }}" method="POST" class="hidden-form" id="rename-form-{{ file }}">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="old_filename" value="{{ file }}">
         <input type="text" name="new_filename" placeholder="New name">
-        <button type="submit">Save</button>
+        <button class="btn primary" type="submit">Save</button>
       </form>
-
-	</div>
+    </div>
   {% else %}
     <p>No files found.</p>
   {% endfor %}
+
 </div>
 
 <script>
@@ -45,4 +59,10 @@ function showDeleteForm(filename) {
 	const form = document.getElementById(`delete-form-${filename}`);
 	form.style.display = 'block';
 }
+
+document.getElementById("file-input").addEventListener("change", function () {
+  const fileName = this.files[0]?.name || "No file chosen";
+  document.getElementById("file-name").textContent = fileName;
+});
+
 </script>
