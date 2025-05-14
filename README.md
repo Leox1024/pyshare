@@ -1,11 +1,11 @@
 ## Pyshare
 
 ## Project Overview
-This project is a file-sharing server written in Python, designed for efficient and reliable file transfer. It provides a minimal web interface, file upload, download and users manegement
+This project is a file-sharing server written in Python, designed for efficient and very simple file transfer. It provides a minimal web interface, file upload, download and users manegement. I'm creating this project as I was not able to find any self-hostable web-app that allowed me to share files easly over the internet.
 
 ## Features
-- **File Upload & Download:** Secure and efficient file transfers.
-- **Minimal Web Interface:** Simple UI for managing file uploads and downloads.
+- **File Upload & Download:** Secure and easy file transfers even with external user.
+- **Minimal Web Interface:** Simple UI for managing file uploads/downloads and user management.
 - **Docker & Kubernetes Support:** Containerized deployment for scalability.
 - **User Authentication & Access Control:** Role-based access management.
 - **Database Integration:** PostgreSQL for file metadata storage.
